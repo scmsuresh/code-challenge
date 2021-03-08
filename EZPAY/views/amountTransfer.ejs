@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <!-- Fonts library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+    crossorigin="anonymous" />
+  <!-- fonts library -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" />
+  <title> ABC - Bank </title>
+</head>
+
+<body>
+  <div class="container">
+  <section class="my-5">
+    <div class="row m-0">
+   
+  
+      <form class="form-inline mx-auto">
+        <div class="form-group mx-3 mb-2">
+          <label for="transferfrom" class="sr-only"> </label>
+          <input type="text" class="form-control"  required id="transferfrom" placeholder="From account No * ">
+        </div>
+        <div class="form-group mx-3 mb-2">
+          <label for="transferto" class="sr-only"> </label>
+          <input type="text" class="form-control"  required id="transferto" placeholder="To account No * ">
+        </div>
+        <div class="form-group mx-3 mb-2">
+          <label for="amount" class="sr-only"> </label>
+          <input type="number" class="form-control"  required id="amount" placeholder="Enter amount * ">
+        </div>
+        <button type="submit" id="transferAmount" class="btn btn-primary mb-2"> Submit </button>
+      </form>
+    </div>
+    
+  </section>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+	
+	$("#transferfrom").focusout(function(){
+		 if($("#transferfrom").val() == $("#transferto").val()){
+			 alert("From Account and To Account is same .Please check it");
+		 }
+		 
+		 $.ajax({
+			  url:"/customer/checkToAccount",
+			  type:"GET",
+			  
+			  data:{
+				  
+				  accountID  :$("#transferfrom").val()
+				
+			  },
+				  success: function(data) {
+					  if(data.length > 0){
+						  console.log("account id is confirmed");
+					  }
+					  else{
+						 
+						  alert("Invalid Account ID");
+					  }
+					  
+					  
+			  },error:function(data){
+				  alert(data);
+				  console.log(data);
+			  }
+	  });
+	 });
+	
+	
+	$("#transferto").focusout(function(){
+		 if($("#transferfrom").val() == $("#transferto").val()){
+			 alert("From Account and To Account is same .Please check it");
+		 }
+		 $.ajax({
+			  url:"/customer/checkToAccount",
+			  type:"GET",
+			  
+			  data:{
+				  
+				  accountID  :$("#transferto").val()
+				
+			  },
+				  success: function(data) {
+					  if(data.length > 0){
+						  console.log("account id is confirmed");
+					  }
+					  else{
+						 
+						  alert("Invalid Account ID");
+					  }
+					  
+					  
+			  },error:function(data){
+				  alert(data);
+				  console.log(data);
+			  }
+	  });
+	});
+	
+	
+	$("#transferAmount").click(function(){
+	
+		$.ajax({
+			  url:"/customer/transferAmt",
+			  type:"POST",
+			  
+			  data:{
+				  fromaccountId : $("#transferfrom").val(),
+				  toaccountId  :$("#transferto").val(),
+				transferAmount:$("#amount").val()
+			  },
+				  success: function(message) {
+					  alert(message);
+					  
+					  
+			  },error:function(data){
+				  alert(data);
+				  console.log(data);
+			  }
+	  });
+	});
+	
+})
+
+</script>
+
+</html>

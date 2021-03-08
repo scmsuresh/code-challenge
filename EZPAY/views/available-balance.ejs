@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+ 
+ 
+  <title> ABC - Bank </title>
+</head>
+
+<body>
+  <div class="container">
+  <section class="my-5">
+    <div class="row m-0">
+      <form class="form-inline mx-auto" action="/customer/getavailableBalance" method="GET">
+        <div class="form-group mx-3 mb-2">
+          <label for="accnum" class="sr-only"> Enter your account number </label>
+          <input type="text" class="form-control" required id="accnum"  name="acctno" placeholder="Enter your account number * ">
+        </div>
+        <button type="submit" id="getBalanceBtn" class="btn btn-primary mb-2"> Submit </button>
+      </form>
+    </div>
+    </section>
+   
+   <div class="row">
+             <div class="row my-2">
+
+      <div class="col-sm-12">
+        <div class="card h-sm-100">
+          <div class="card-body pt-0">
+            <div class="col-md-12">
+              <div class="card-heading py-2">
+                <h5 class="c-heading pt-2 pl-3"> Account Summary </h5>
+               
+              </div>
+              <!--Table-->
+              <div class="table-responsive">
+                 <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Account Number</th>
+                
+                <th>Available Balance</th>
+                 
+         
+                
+            </tr>
+        </thead>
+       <tbody>
+       <% if(availablebalanceData.length > 0){ %>
+        <% for ( var i = 0 ; i < availablebalanceData.length ; i++){ %>
+       <tr>
+             <td>
+                <%= availablebalanceData[i].acctId%>
+             </td>
+             <td>
+                <%= CustomersData[i].name%>
+             </td>
+             <td>
+              <%= availablebalanceData[i].availableBalance%>
+             </td>
+              <td>
+               <%= availablebalanceData[i].accountType%>
+             </td>
+          </tr>
+          <% } %>
+<% } %>
+       
+       </tbody>
+        
+            </table>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+              
+           </div>
+         
+ 
+</div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"  ></script>
+	
+
+	 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"  ></script> 
+	
+	<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"  ></script>
+	
+	
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+	
+	
+	
+	
+		
+<script>
+$(document).ready(function() {
+	
+
+	$("#accnum").focusout(function(){
+		 
+		 $.ajax({
+			  url:"/customer/checkToAccount",
+			  type:"GET",
+			  
+			  data:{
+				  
+				  accountID  :$("#accnum").val()
+				
+			  },
+				  success: function(data) {
+					  if(data.length > 0){
+						  console.log("account id is confirmed");
+					  }
+					  else{
+						 
+						  alert("Invalid Account ID");
+					  }
+					  
+					  
+			  },error:function(data){
+				  alert(data);
+				  console.log(data);
+			  }
+	  });
+
+	 });
+	//$("#data").hide();
+	
+	
+	/* $("#getBalanceBtn").click(function(){
+		
+		$.ajax({
+			  url:"/customer/getavailableBalance",
+			  type:"GET",
+			  async: false,
+			  data:{
+			     accountId:$("#accnum").val(),
+			  },
+				  success:  function(availablebalanceData) {
+					  var dataItems= availablebalanceData;
+					  
+	                 //  alert(dataItems[0].availableBalance);
+	                  // console.log(availablebalanceData.acctId);
+	                  // var myTable = $('#example').DataTable();
+	                  //myTable.row.add( [dataItems[0].acctId,dataItems[0].availableBalance,"hhhh"] );
+
+	                     /* var rowNode = myTable
+    .row.add( [ 'Fiona White', 32, 'Edinburgh' ] )
+    .draw();   */
+   // .node(); 
+
+         /*  var tbl = $('#example').DataTable();
+          var row = {
+                  "Id": "0",
+                  "acctNumber": "resident",
+                  "balance": "unit"
+      }
+       
+          tbl.rows.add(row).draw( false ); */
+
+          
+    //  $('#example').DataTable().row.add($(d).get(0)).draw(); 
+    /* var tbl = $('#example').DataTable();
+    tbl.row.add({
+        "Id": '9',
+        "acctNumber": 'adminmmm',
+        "balance": '8'
+   }).draw(); */
+   
+         /* $('#example > tbody').html('<tr><td>daaaa</td><td>1</td><td>counter</td></tr>');
+    
+     
+				  },error:function(data){
+					  console.log(data);
+				  }
+		  });
+		
+		alert("dataa items is"+d);
+		});
+     */
+    
+  //  myTable.rows.add(dataItems);
+   // myTable.draw();
+	                 
+	                   /*   $('#example').dataTable({
+	                	    data: availablebalanceData,
+	                	    columns: [
+	                	        { data: '_id' },
+	                	        { data: 'acctId' },
+	                	        { data: 'availableBalance' }
+	                	    ]
+	                	}); */  
+	                	
+	                	
+	                	
+	                	/* var jsonData = [{"userID":"1","userName":"name1"},{"userID":"2","userName":"name2"},{"userID":"3","userName":"name3"}];
+	                    $('#example').dataTable({
+	                        data: jsonData,
+	                        columns: [
+	                            { data: 'userID' },
+	                            { data: 'userName' }
+	                        ]
+	                    }); */
+	                	
+	              //    $('#example').dataTable().fnAddData(availablebalanceData);
+	                
+		  
+			 
+	
+})
+</script>
+</html>
