@@ -8,7 +8,7 @@ Get Balance For Individual Customers
 
 http://localhost:3000/customer/getBalance
 
-Transfer Account For Different Account
+Transfer amount For Different Account
 
 http://localhost:3000/customer/transferAmount
 
