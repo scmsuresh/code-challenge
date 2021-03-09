@@ -1,0 +1,17 @@
+End Point 
+
+Create Customers
+
+http://localhost:3000/customer/createAccount
+
+Get Balance For Individual Customers
+
+http://localhost:3000/customer/getBalance
+
+Transfer Account For Different Account
+
+http://localhost:3000/customer/transferAmount
+
+Get History Records For Individual Customers
+
+http://localhost:3000/customer/getHistroy
